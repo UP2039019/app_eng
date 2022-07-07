@@ -25,10 +25,17 @@ const htmlPath = path.join(__dirname + "/index.html");
 
 // create a new client instance with the pg Pool() method
 const client = new Pool({
-  user: "me",
-  host: "localhost",
-  database: "api",
-  password: "password",
+  // user: "me",
+  // host: "localhost",
+  // database: "api",
+  // password: "password",
+
+  user: "rxiysfwokuxbpe",
+  host: "ec2-54-159-22-90.compute-1.amazonaws.com",
+  database: "dcio7t4dbfo77m",
+  password: "436bbb10aa1e87227cfe5a3f4466380cfab8e93fcf652f8b4a1e0ae2d15aa681",
+
+  
   port: "5432"
 });
 
