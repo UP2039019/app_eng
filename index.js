@@ -19,6 +19,7 @@ app.use(bodyParser.json());
 // declare a constant for the PostgreSQL table
 const tableName = 'bricks';
 const port = process.env.port || 3000;
+var server_host = process.env.YOUR_HOST || '0.0.0.0';
 
 // get the path for the HTML file
 const htmlPath = path.join(__dirname + "/index.html");
@@ -36,6 +37,8 @@ const client = new Pool({
   password: "436bbb10aa1e87227cfe5a3f4466380cfab8e93fcf652f8b4a1e0ae2d15aa681",  
   port: "5432"
 });
+
+
 
 // function that will return Postgres records as an HTML table
 function createHtmlTable(tableRows, tableCol) {
@@ -141,7 +144,7 @@ app.post("/query", function(req, resp) {
   }
 });
 
-var server = app.listen(port, function() {
+var server = app.listen(port, server_host, function() {
   console.log(
     `\nPostgres Node server is running on port: ${server.address().port}`
   );
