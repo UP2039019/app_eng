@@ -18,8 +18,11 @@ app.use(bodyParser.json());
 
 // declare a constant for the PostgreSQL table
 const tableName = 'bricks';
-const port = process.env.port || 3000;
-var server_host = process.env.YOUR_HOST || '0.0.0.0';
+
+// use alternate localhost and the port Heroku assigns to $PORT
+const host = '0.0.0.0';
+const port = process.env.PORT || 3000;
+
 
 // get the path for the HTML file
 const htmlPath = path.join(__dirname + "/index.html");
@@ -144,7 +147,7 @@ app.post("/query", function(req, resp) {
   }
 });
 
-var server = app.listen(port, server_host, function() {
+var server = app.listen(port, host, function() {
   console.log(
     `\nPostgres Node server is running on port: ${server.address().port}`
   );
