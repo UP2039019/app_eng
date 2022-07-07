@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 
 // declare a constant for the PostgreSQL table
 const tableName = 'bricks';
-const port = process.env.port || 3456;
+const port = process.env.port || 3000;
 
 // get the path for the HTML file
 const htmlPath = path.join(__dirname + "/index.html");

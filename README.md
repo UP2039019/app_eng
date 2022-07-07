@@ -20,10 +20,9 @@ You will need to have the following software installed on your system
 
 - [Nodejs](https://nodejs.org/en/download/), a JavaScript runtime that lets you run applications outside the browser
 - NPM, a package manager for Nodejs software packages (Comes with Node)
-- MongoDB installation 
-- [Stripe](https://dashboard.stripe.com/register) account (Test account will work)
-- [Cloudinary](https://cloudinary.com/) account for image uploads
-- [Sendgrid](sendgrid.com) account
+- Postgresql installation 
+
+
 
 ### Installing
 
