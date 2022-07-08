@@ -11,6 +11,7 @@ const bodyParser = require("body-parser");
 
 // create a new Express app server object
 const app = express();
+app.use(express.static(__dirname + '/public'));
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
