@@ -3,6 +3,8 @@
 
 const express = require("express");
 const { Pool } = require("pg");
+const connectionString = process.env.DATABASE_URL || 'postgresql://me:password@localhost:5432/postgres'
+
 const path = require("path");
 const fs = require("fs");
 const bodyParser = require("body-parser");
@@ -21,8 +23,9 @@ const tableName = 'bricks';
 
 // use alternate localhost and the port Heroku assigns to $PORT
 const host = '0.0.0.0';
-// const host = 'localhost';
 const port = process.env.PORT || 3000;
+// const host = 'localhost';
+// const port = 8080;
 
 
 // get the path for the HTML file
@@ -30,16 +33,7 @@ const htmlPath = path.join(__dirname + "/index.html");
 
 // create a new client instance with the pg Pool() method
 const client = new Pool({
-  
-  // user: "me",
-  // host: "localhost",
-  // database: "api",
-  // password: "password",
-
-  user: "rxiysfwokuxbpe",
-  host: "ec2-54-159-22-90.compute-1.amazonaws.com",
-  database: "dcio7t4dbfo77m",
-  password: "436bbb10aa1e87227cfe5a3f4466380cfab8e93fcf652f8b4a1e0ae2d15aa681",  
+  connectionString,
 
   port: "5432",
 
