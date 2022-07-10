@@ -18,20 +18,11 @@
 </head>
 <body>
 
-  <h1>Lego Brick store</h1>
+  <h1>Cart Contents</h1>
 
   <!-- HTML form for the NodeJs Postgres app -->
-  <form method="POST" action="query">
-    <div class="form-group">
-      <label for="query-input">Postgres Integer Query:</label>
-      <input id="query-input" class="form-control"
-     type="number" name="query" placeholder="0"></input>
-      <br>
-    </div>
+  
 
-    <button class="btn btn-success" type="submit" value="Submit">Submit Query</button>
-  </form>
-  <br>
 
   <!-- BS4 table begins here -->
   <div class="container">
@@ -43,41 +34,29 @@
       <!--
        HTML data returned from NodeJs app will go here
      -->
-
     </table>
   
   </div>
-
 
   <div class="container">
-    <h2>Model Types</h2>
-    
+    <form action="/postCheckout" method="POST">
+      <div id="checkout-data">        
+      </div>      
+      <button class="btn btn-success" type="submit" value="Submit">Check Out</button>
+    </form>
 
-    <table id="postgres-table-modelkits" class="table table-striped">
-
-      <!--
-       HTML data returned from NodeJs app will go here
-     -->
-
-    </table>
-  
   </div>
-
-
-
 
   <script>
     window.addEventListener('load', function() {
       let pgTable = document.getElementById("postgres-table");
-      let pgModelTable = document.getElementById("postgres-table-modelkits");
-
+      let pgForm = document.getElementById("checkout-data");
       try {
-        pgTable.innerHTML = tableData;
-        pgModelTable.innerHTML=modelkitTableData;
-        console.log(`\ntableData: ${tableData}`);
+        pgTable.innerHTML = cartData;
+        pgForm.innerHTML = checkOutData;
+        console.log(`\ntableData: ${cartData}`);
       } catch(err) {
         pgTable.innerHTML = "no data yet";
-        pgModelTable.innerHTML="no data yet";
       }
     });
   </script>

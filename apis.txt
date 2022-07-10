@@ -1,0 +1,4 @@
+http://localhost:8080/cart/sid/thisguy/productType/bricks/id/3
+
+
+http://localhost:8080/cart/sid/thisguy

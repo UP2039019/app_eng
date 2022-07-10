@@ -22,9 +22,8 @@
   <div class="container">
     <form action="/addtocart" method="POST">
       <div id="postgres-specific-product">        
-      </div>
-      <input type="text" id="orderCount" name="orderCount" placeholder="Enter Count"><br>
-      <button class="btn btn-success" type="submit" value="Submit">Add To Cart</button>
+      </div>      
+      <button class="btn btn-success" type="submit" value="Submit">Modify Cart</button>
     </form>
   </div>
 
@@ -32,12 +31,12 @@
     window.addEventListener('load', function() {
       let pgTable = document.getElementById("postgres-specific-product");
       try {
-        pgTable.innerHTML = specificProductData;
-        console.log(`\ntableData: ${specificProductData}`);
+        pgTable.innerHTML = specificCheckoutProductData;
+        console.log(`\ntableData: ${specificCheckoutProductData}`);
       } catch(err) {
         pgTable.innerHTML = "no data yet";
       }
-    }); 
+    });
   </script>
 
 </body>
