@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+
+  <title>Online Lego Store</title>
+  <!-- BS4 source -->
+  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+  <link rel="stylesheet" type="text/css" href="css/style.css" / crossorigin="anonymous">
+
+  <!-- CSS for doc body -->
+  <style>
+    body {
+      margin: 1rem;
+    }
+  </style>
+
+</head>
+<body>
+
+  <h1>Add Stock</h1>
+
+  <!-- HTML form for the NodeJs Postgres app -->
+  <form method="POST" action="postAddBricksStock">
+
+
+    <div class="form-group">
+      <div id="postgres-brick-id-form">      
+      </div>      
+       <input name="count" placeholder="More than 0"><br>
+      <br>
+    </div>
+
+    <button class="btn btn-success" type="submit" value="Submit">Add To Stock</button>
+  </form>
+  <br>
+
+ 
+
+
+  
+
+
+
+
+
+  <script>
+    window.addEventListener('load', function() {
+      let pgTable = document.getElementById("postgres-brick-id-form");    
+      try {
+        pgTable.innerHTML = formidData;        
+        console.log(`\ntableData: ${formidData}`);
+      } catch(err) {
+        pgTable.innerHTML = "no data yet";        
+      }
+    });
+  </script>
+
+</body>
+</html>

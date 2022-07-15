@@ -2,3 +2,14 @@ http://localhost:8080/cart/sid/thisguy/productType/bricks/id/3
 
 
 http://localhost:8080/cart/sid/thisguy
+
+
+
+http://localhost:8080/addBricks
+http://localhost:8080/postAddBricks
+
+
+
+
+http://localhost:8080/addBricksStock
+http://localhost:8080/postAddBricksStock

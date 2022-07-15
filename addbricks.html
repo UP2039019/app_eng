@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+
+  <title>Online Lego Store</title>
+  <!-- BS4 source -->
+  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+  <link rel="stylesheet" type="text/css" href="css/style.css" / crossorigin="anonymous">
+
+  <!-- CSS for doc body -->
+  <style>
+    body {
+      margin: 1rem;
+    }
+  </style>
+
+</head>
+<body>
+
+  <h1>Add new brick</h1>
+
+  <!-- HTML form for the NodeJs Postgres app -->
+  
+
+
+  <!-- BS4 table begins here -->
+  <div class="container">
+    <h2>Enter brick details</h2>
+  </div>
+  <div class="container">
+    <form action="/postAddBricks" method="POST">
+      <input name="bid" placeholder="Brick ID(B_)"><br>
+      <input name="color" placeholder="Enter color"><br>
+      <select name="size" id="size">
+        <option value="small">Small</option>
+        <option value="medium">Medium</option>
+        <option value="large">Large</option>        
+      </select><br>
+
+      <select name="type" id="size">
+        <option value="square">Square</option>
+        <option value="rectangle">Rectangle</option>
+        <option value="l-shaped">L-Shaped</option>        
+      </select><br>
+      
+
+      <button class="btn btn-success" type="submit" value="Submit">Add</button>
+    </form>
+
+  </div>
+
+  
+</body>
+</html>
