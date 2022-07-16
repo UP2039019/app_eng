@@ -1,14 +1,16 @@
 # Online shop
-This is a sample online shop that offers features such as product catalog, shopping cart, checkout and payments
+This is a sample online lego shop that sells lego bricks as well as model kits.
 
 # Features
-- User Sign up and authentication
-- Password Reset
-- Product Catalog \w pagination
-- Shopping Cart and Checkout
-- Email Notifications
-- Image Uploads
-- Stripe Payment Integration
+- Add bricks
+- Add bricks stock
+- View the shop
+- View individual product
+- Add products to cart
+- View Cart
+- Modify cart items individually
+- Check out cart
+
 
 ## Getting Started
 
@@ -44,19 +46,7 @@ Install application dependencies
 npm install
 ```
 
-Create a `.env` file based on the `.env.example` file and populate following variables
 
-```
-SENDGRID_API_KEY=<sendgrid-api-key>
-MONGO_DB_URI=<mongodb-connection-uri>
-STRIPE_SECRET=<stripe-secret>
-STRIPE_KEY=<stripe-api-key>
-CLOUDINARY_CLOUD_NAME=<cloudinary-cloud-name>
-CLOUDINARY_API_KEY=<cloudinary-api-key>
-CLOUDINARY_API_SECRET=<cloudinary-api-secret>
-```
-
-*NB:* The `MONGO_DB_URI` should be populated to configure the app with a database. I recommend setting up one on [Mongo Atlas](https://www.mongodb.com/cloud/atlas) which is easy to setup and provides a free tier.
 
 ### Setting up the Database
 

@@ -996,61 +996,6 @@ app.post("/addtocart", function(req, resp) {
 
 
 
-// 'POST' route for the web app
-app.post("/query", function(req, resp) {
-    // parse the user's query
-    let userQuery = req.body.query;
-    console.log(`\nuserQuery: ${typeof userQuery}`);
-    console.log(`${userQuery}`);
-
-    // load the HTML file into the Node app's memory
-    let htmlData = fs.readFileSync("./index.html", "utf8");
-
-    // only make an API call if the user query is valid
-    if (isNaN(userQuery) == false && userQuery.length > 0) {
-        // concatenate an SQL string to SELECT the table column names
-        let sqlColNames = `SELECT * FROM information_schema.columns WHERE table_name = $1;`;
-
-        // create a Promise object for the query
-        client
-            .query(sqlColNames, [tableName])
-
-            .then(colResp => {
-                // access the "rows" Object attr
-                let colRows = colResp["rows"];
-
-                // use map() function to create an array of col names
-                let colNames = colRows.map(colKeys => {
-                    return colKeys["column_name"];
-                });
-
-                // concatenate another string for the table row data
-                let sqlSelectRows = `SELECT * FROM ${tableName} WHERE BID >= $1`;
-                console.log(`sqlSelectRows: ${sqlSelectRows}`);
-
-                client
-                    .query(sqlSelectRows, [userQuery])
-
-                    .then(rowResp => {
-                        // get the row data from 'rows' attribute
-                        let rowData = rowResp.rows;
-
-                        // call function to create HTML data
-                        let html = createHtmlTable(rowData, colNames);
-                        console.log(`HTML table data: ${html}`);
-
-                        // send the HTML file data and table data back to front end
-                        resp.send(htmlData + `<br>` + html);
-                    });
-            });
-    } else {
-        // send an error message if the query is not an integer
-        resp.send(
-            htmlData +
-            `<br><p color="red">ERROR: You must input an integer value.</p>`
-        );
-    }
-});
 
 
 
