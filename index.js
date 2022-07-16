@@ -976,7 +976,8 @@ app.post("/addtocart", function(req, resp) {
                             let rowData = rowResp.rows;
                             console.log(rowData)
                             // send the HTML file data and table data back to front end
-                            resp.send("Inserted/Modified into session cart");
+                            // resp.send("Inserted/Modified into session cart");
+                            return resp.redirect('/');
                         });
 
 

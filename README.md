@@ -116,17 +116,15 @@ Run the command below in the project's root folder
 ```
 npm start
 ```
+The project is accessible by http://localhost:8080/
 
-## Built With
+## API details
 
-* [Expressjs](https://expressjs.com/) - Web framework used
-* [PostgreSQL](https://www.postgresql.org/) - Database
+### Front End APIs
 
-## License
+1. / - Shows the shop
+![BricksStock](public/static/api_pics/root.png)
 
-This project is licensed under the MIT License
-
-## Acknowledgments
 
 ## Difference between github source code and zipped file
 
@@ -183,4 +181,18 @@ const client = new Pool({
 ...
 
 ```
+
+
+
+## Built With
+
+* [Expressjs](https://expressjs.com/) - Web framework used
+* [PostgreSQL](https://www.postgresql.org/) - Database
+
+## License
+
+This project is licensed under the MIT License
+
+## Acknowledgments
+
 
