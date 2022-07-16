@@ -47,10 +47,10 @@ const tableName = 'bricks';
 const brickTableName = 'bricks';
 
 // use alternate localhost and the port Heroku assigns to $PORT
-const host = '0.0.0.0';
-const port = process.env.PORT || 3000;
-// const host = 'localhost';
-// const port = 8080;
+// const host = '0.0.0.0';
+// const port = process.env.PORT || 3000;
+const host = 'localhost';
+const port = 8080;
 
 
 // get the path for the HTML file
@@ -63,9 +63,9 @@ const client = new Pool({
 
     port: "5432",
 
-    ssl: {
-      rejectUnauthorized: false
-    }
+    // ssl: {
+    //   rejectUnauthorized: false
+    // }
 });
 
 
@@ -383,6 +383,47 @@ function createProductDetailsTable(productType, tableRows, tableCol) {
     }
 
 }
+
+
+function postCheckOutTableModifyBricksStore(bid, countRequired) {
+
+    let sqlSelectRows = `SELECT count from  bricksstock WHERE BID = $1`;
+    console.log("query", sqlSelectRows, bid);
+    client
+        .query(sqlSelectRows, [bid])
+
+        .then(rowResp => {
+            let rowData = rowResp.rows;
+            countAvailable = rowData[0].count
+
+            console.log(countAvailable)
+            //can we update the table here
+            let new_count = parseInt(countAvailable) - parseInt(countRequired)
+            let sqlUpdate = `Update bricksstock set count=$1 WHERE BID = $2`;
+            console.log(`sqlUpdate: ${sqlUpdate}`);
+            client
+                .query(sqlUpdate, [new_count, bid])
+                .then(rowResp => {
+                    console.log("Updated ", bid)
+                    // return 0;                    
+                });
+        });
+}
+
+function postCheckOutTableDeleteSessionCartRow(sid, itemid) {
+
+    let sqlDelete = `Delete from sessioncart where SID=$1 and  itemid = $2`;
+    console.log(`sqlDelete: ${sqlDelete}`);
+    client
+        .query(sqlDelete, [sid, itemid])
+        .then(rowResp => {
+            console.log("Deleted ", sid, itemid)
+            return 0;
+        });
+
+}
+
+
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
 //////////////// apis //////////////////////////
@@ -445,73 +486,22 @@ app.get("/", (req, resp) => {
                             let colNames = ['MID', "name"]
                             let modelKitshtml = createHtmlModelKitTableClickable(rowData, colNames);
 
+
+                            let cartLinkData="<script>var cartLinkData = `<div>\n";
+                            cartLinkData+="<a href='/cart/sid/"+req.session.name+"'>" + "View Cart" + "</a>";
+                            cartLinkData+="\n</div>`;</script>";
+
                             // send the HTML file data and table data back to front end
-                            resp.send(htmlData + `<br>` + html + `<br>` + modelKitshtml);
+                            resp.send(htmlData + `<br>` + html + `<br>` + modelKitshtml+cartLinkData);
 
                         });
                 });
         });
 
-        
+
 });
 
 
-
-
-app.get('/shop', (req, resp) => {
-    req.session.name = 'thisguy'
-    console.log(`req: ${req}`);
-    console.log(`resp: ${resp}`);
-
-    // load the HTML file into the Node app's memory
-    let htmlData = fs.readFileSync("./shop.html", "utf8");
-    let sqlColNames = `SELECT * FROM information_schema.columns WHERE table_name = $1;`;
-    client
-        .query(sqlColNames, [brickTableName])
-
-        .then(colResp => {
-            // access the "rows" Object attr
-            let colRows = colResp["rows"];
-
-            // use map() function to create an array of col names
-            let colNames = colRows.map(colKeys => {
-                return colKeys["column_name"];
-            });
-
-            // concatenate another string for the table row data
-            let sqlSelectRows = `SELECT * FROM ${tableName}`;
-            console.log(`sqlSelectRows: ${sqlSelectRows}`);
-            client
-                .query(sqlSelectRows)
-
-                .then(rowResp => {
-                    // get the row data from 'rows' attribute
-                    let rowData = rowResp.rows;
-
-                    // call function to create HTML data
-                    let html = createHtmlTableClickable(rowData, colNames);
-
-                    //now prepare the html table for models
-                    let modelkitTableName = "modelkit"
-                    let sqlModelKitSelectRows = `SELECT mid,name FROM ${modelkitTableName}`;
-                    console.log(`sqlSelectRows: ${sqlSelectRows}`);
-                    client
-                        .query(sqlModelKitSelectRows)
-                        .then(rowResp => {
-                            // get the row data from 'rows' attribute
-                            let rowData = rowResp.rows;
-                            let colNames = ['MID', "name"]
-                            let modelKitshtml = createHtmlModelKitTableClickable(rowData, colNames);
-
-                            // send the HTML file data and table data back to front end
-                            resp.send(htmlData + `<br>` + html + `<br>` + modelKitshtml);
-
-                        });
-                });
-        });
-
-    // resp.sendFile(aboutHtmlPath);
-});
 
 
 
@@ -780,43 +770,7 @@ app.get('/cart/sid/:sid/productType/:productType/id/:id', (req, resp) => {
 });
 
 
-function postCheckOutTableModifyBricksStore(bid, countRequired) {
 
-    let sqlSelectRows = `SELECT count from  bricksstock WHERE BID = $1`;
-    console.log("query", sqlSelectRows, bid);
-    client
-        .query(sqlSelectRows, [bid])
-
-        .then(rowResp => {
-            let rowData = rowResp.rows;
-            countAvailable = rowData[0].count
-
-            console.log(countAvailable)
-            //can we update the table here
-            let new_count = parseInt(countAvailable) - parseInt(countRequired)
-            let sqlUpdate = `Update bricksstock set count=$1 WHERE BID = $2`;
-            console.log(`sqlUpdate: ${sqlUpdate}`);
-            client
-                .query(sqlUpdate, [new_count, bid])
-                .then(rowResp => {
-                    console.log("Updated ", bid)
-                    // return 0;                    
-                });
-        });
-}
-
-function postCheckOutTableDeleteSessionCartRow(sid, itemid) {
-
-    let sqlDelete = `Delete from sessioncart where SID=$1 and  itemid = $2`;
-    console.log(`sqlDelete: ${sqlDelete}`);
-    client
-        .query(sqlDelete, [sid, itemid])
-        .then(rowResp => {
-            console.log("Deleted ", sid, itemid)
-            return 0;
-        });
-
-}
 
 // // this one is for after checking out
 app.post("/postCheckout", function(req, resp) {
@@ -900,7 +854,8 @@ app.post("/postCheckout", function(req, resp) {
             });
 
         });
-    resp.send("Check out complete");
+    // resp.send("Check out complete");
+    return resp.redirect('/');
 
 
 });
@@ -952,7 +907,8 @@ app.post("/addtocart", function(req, resp) {
                     let rowData = rowResp.rows;
                     console.log(rowData)
                     // send the HTML file data and table data back to front end
-                    resp.send("Inserted/Modified into session cart");
+                    // resp.send("Inserted/Modified into session cart");
+                    return resp.redirect('/');
                 });
 
 

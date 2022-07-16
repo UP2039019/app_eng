@@ -21,17 +21,8 @@
   <h1>Lego Brick store</h1>
 
   <!-- HTML form for the NodeJs Postgres app -->
-  <form method="POST" action="query">
-    <div class="form-group">
-      <label for="query-input">Postgres Integer Query:</label>
-      <input id="query-input" class="form-control"
-     type="number" name="query" placeholder="0"></input>
-      <br>
-    </div>
+  
 
-    <button class="btn btn-success" type="submit" value="Submit">Submit Query</button>
-  </form>
-  <br>
 
   <!-- BS4 table begins here -->
   <div class="container">
@@ -63,6 +54,14 @@
   
   </div>
 
+  <div class="container">
+    <div id="cart-link">
+    </div>
+
+  </div>
+
+
+
 
 
 
@@ -70,14 +69,17 @@
     window.addEventListener('load', function() {
       let pgTable = document.getElementById("postgres-table");
       let pgModelTable = document.getElementById("postgres-table-modelkits");
+      let cartLink = document.getElementById("cart-link");
 
       try {
         pgTable.innerHTML = tableData;
         pgModelTable.innerHTML=modelkitTableData;
+        cartLink.innerHTML=cartLinkData;
         console.log(`\ntableData: ${tableData}`);
       } catch(err) {
         pgTable.innerHTML = "no data yet";
         pgModelTable.innerHTML="no data yet";
+        cartLink.innerHTML="no user yet";
       }
     });
   </script>
