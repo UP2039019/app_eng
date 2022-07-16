@@ -88,7 +88,7 @@ The ER diagram follows
 
 
 The relationship between ModelKits and bricksStock is shown with an example below.
-![BricksStock](public/static/ModelKits.svg)
+![BricksStock](public/static/ModelKits.png)
 
 
 
