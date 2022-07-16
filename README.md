@@ -90,6 +90,24 @@ The ER diagram is as follows
 The relationship between ModelKits and bricksStock is shown with an example below.
 ![BricksStock](public/static/ModelKits.png)
 
+### Database Connection
+Once the database schema is established, the code should be able to connect to the database and perform necessary functionalities.
+However I am highlighting the place which needs to be modified in case of changes in the database connections.
+
+In the file index.js
+
+```
+...
+const {
+    Pool
+} = require("pg");
+const connectionString = process.env.DATABASE_URL || 'postgresql://me:password@localhost:5432/postgres'
+...
+```
+
+"me" is the name of the user, "password" is the password for the user, "localhost" is the server, "5432" is the port and "postgres" is the name of the database.
+
+
 
 
 ## Running the application
@@ -102,8 +120,7 @@ npm start
 ## Built With
 
 * [Expressjs](https://expressjs.com/) - Web framework used
-* [EJS](https://ejs.co) - Templating engine
-* [MongoDB](https://www.mongodb.com) - Database
+* [PostgreSQL](https://www.postgresql.org/) - Database
 
 ## License
 
@@ -111,4 +128,59 @@ This project is licensed under the MIT License
 
 ## Acknowledgments
 
-* Built through a course instructed by [Maximilian Schwarzmüller](https://www.udemy.com/user/maximilian-schwarzmuller/)
+## Difference between github source code and zipped file
+
+The github version is modified so that it can run in heroku.
+The zipped version is enabled to run in local machine.
+
+The differences are as follows.
+
+### For heroku (github version)
+
+In index.js
+
+```
+...
+
+const host = '0.0.0.0';
+const port = process.env.PORT || 3000;
+
+...
+
+const client = new Pool({
+    connectionString,
+
+    port: "5432",
+
+    ssl: {
+      rejectUnauthorized: false
+    }
+});
+
+...
+
+```
+
+### For local machine (zipped version)
+
+```
+...
+
+const host = 'localhost';
+const port = 8080;
+
+...
+const client = new Pool({
+    connectionString,
+
+    port: "5432",
+
+    // ssl: {
+    //   rejectUnauthorized: false
+    // }
+});
+
+...
+
+```
+
