@@ -84,8 +84,8 @@ BricksStock - contains the brick id (BID) and the number of such bricks in stock
 ModelKits - contains the different composite models that the shop sells. It has two attributes, Model ID (MID) and name
 ModelKitsComposition - defines the brick composition of each model. It contains three attributes, Model ID (MID), Brick ID (BID) and the number of bricks required (count)
 
-The ER diagram follows
-
+The ER diagram is as follows
+![ER Diagram](public/static/ERDiagram.png)
 
 The relationship between ModelKits and bricksStock is shown with an example below.
 ![BricksStock](public/static/ModelKits.png)
