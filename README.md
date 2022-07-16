@@ -159,6 +159,29 @@ User will get an error message
 4. /postAddBricksStock - Inserts or updates the table bricksstock to contain the number of bricks mentioned
 
 
+## Design Consideration
+
+### ModelKits and Bricks
+While modelkits are composed of bricks, they are represented separately in the databse. There is a bricks table which contains the name and design of each brick type. The modelkits table has a name and a modelkit ID. The two are connected in the modelkits composition table where, for each model kit id we mention the corresponding brick IDs and the count required. 
+
+![BricksStock](public/static/ModelKits.png)
+For example, in the figure above the modelkit M1 is shown to require 700 B1 bricks and 500 B2 bricks. When a customer places an order for 2 M1 model kits, the system will perform a join query to extract the number of bricks required and the number present for each composite brick of the model kit M1.
+
+### Ordering ModelKits and Bricks separately
+The above separation allows the user to order modelkits and bricks which constitute the modelkit, separately.
+![CartMix](public/static/api_pics/decoupling/cart.png)
+
+Above image shows a cart that contains model kit M1 and brick B1
+If we check the modelkit M1, we will see that it also contains the brick B1.
+![ModelKitM1](public/static/api_pics/decoupling/modelkit_bricks.png)
+Thus the user is able to order Modle Kit M1 which contains brick B1 and brick B1 separately.
+
+
+## Future Scope
+
+1. Customer recommendations on model kits
+2. Customer placing order for unavailable items
+
 ## Difference between github source code and zipped file
 
 The github version is modified so that it can run in heroku.

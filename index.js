@@ -47,11 +47,10 @@ const tableName = 'bricks';
 const brickTableName = 'bricks';
 
 // use alternate localhost and the port Heroku assigns to $PORT
-// const host = '0.0.0.0';
-// const port = process.env.PORT || 3000;
-const host = 'localhost';
-const port = 8080;
-
+const host = '0.0.0.0';
+const port = process.env.PORT || 3000;
+// const host = 'localhost';
+// const port = 8080;
 
 // get the path for the HTML file
 const htmlPath = path.join(__dirname + "/index.html");
@@ -63,13 +62,10 @@ const client = new Pool({
 
     port: "5432",
 
-    // ssl: {
-    //   rejectUnauthorized: false
-    // }
+    ssl: {
+      rejectUnauthorized: false
+    }
 });
-
-
-
 
 function formulateBricksIDList(rowData) {
 
@@ -82,18 +78,13 @@ function formulateBricksIDList(rowData) {
     }
     htmlData += "</select>"
 
-
     // close the div body and script tags
     htmlData += "\n</div>`;</script>";
 
     // return the string
     return htmlData;
 
-
 }
-
-
-
 
 function createHtmlModelKitTableClickable(tableRows, tableCol) {
     // open a <script> tag for the string
@@ -175,7 +166,6 @@ function createHtmlTableClickable(tableRows, tableCol) {
     return htmlData;
 }
 
-
 // function that will return Postgres cart records for a specific session 
 // as html links in a table
 function createHtmlCartTableClickable(tableRows, tableCol) {
@@ -223,8 +213,6 @@ function createHtmlCartTableClickable(tableRows, tableCol) {
     return htmlData;
 }
 
-
-
 // function that will return Postgres records as an HTML table
 function createHtmlTable(tableRows, tableCol) {
     // open a <script> tag for the string
@@ -264,12 +252,9 @@ function createHtmlTable(tableRows, tableCol) {
     return htmlData;
 }
 
-
 function createCheckoutProductDetailsTable_ModelKits(tablename, tableRows, tableCol, countOrdered) {
 
-
     console.log("createCheckoutProductDetailsTable, modelkits")
-
 
     // console.log(sqlColNames)
     let htmlData = "<script>var specificCheckoutProductData = `<div>\n";
@@ -289,7 +274,6 @@ function createCheckoutProductDetailsTable_ModelKits(tablename, tableRows, table
     return htmlData
 
 }
-
 
 function createCheckoutProductDetailsTable(tablename, tableRows, tableCol, countAvailable) {
 
@@ -312,18 +296,13 @@ function createCheckoutProductDetailsTable(tablename, tableRows, tableCol, count
         htmlData += "<input type='hidden' name='count' value='" + countAvailable + "'>"
         htmlData += "<input type='hidden' name='tablename' value='" + tablename + "'>"
 
-
-
         htmlData += "\n</div>`;</script>";
         console.log(htmlData)
         return htmlData;
 
     }
 
-
-
 }
-
 
 // function that will return Postgres records as an HTML table
 function createProductDetailsTable(productType, tableRows, tableCol) {
@@ -354,8 +333,6 @@ function createProductDetailsTable(productType, tableRows, tableCol) {
 
         // htmlData=createHtmlModelKitTable(script_var_name,tableRows, tableCol)
 
-
-
         // open a <script> tag for the string
         let htmlData = "<script>var specificProductData = `<div>\n";
         console.log(`\createHtmlModelKitTableClickable:`, productType);
@@ -375,15 +352,12 @@ function createProductDetailsTable(productType, tableRows, tableCol) {
         // close the div body and script tags
         htmlData += "\n</div>`;</script>";
 
-
         // return the string
         return htmlData;
-
 
     }
 
 }
-
 
 function postCheckOutTableModifyBricksStore(bid, countRequired) {
 
@@ -423,7 +397,6 @@ function postCheckOutTableDeleteSessionCartRow(sid, itemid) {
 
 }
 
-
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
 //////////////// apis //////////////////////////
@@ -440,7 +413,6 @@ app.get("/", (req, resp) => {
 
     // // send the HTML file back to the front end
     // resp.sendFile(htmlPath);
-
 
     req.session.name = 'thisguy'
     console.log(`req: ${req}`);
@@ -486,26 +458,18 @@ app.get("/", (req, resp) => {
                             let colNames = ['MID', "name"]
                             let modelKitshtml = createHtmlModelKitTableClickable(rowData, colNames);
 
-
-                            let cartLinkData="<script>var cartLinkData = `<div>\n";
-                            cartLinkData+="<a href='/cart/sid/"+req.session.name+"'>" + "View Cart" + "</a>";
-                            cartLinkData+="\n</div>`;</script>";
+                            let cartLinkData = "<script>var cartLinkData = `<div>\n";
+                            cartLinkData += "<a href='/cart/sid/" + req.session.name + "'>" + "View Cart" + "</a>";
+                            cartLinkData += "\n</div>`;</script>";
 
                             // send the HTML file data and table data back to front end
-                            resp.send(htmlData + `<br>` + html + `<br>` + modelKitshtml+cartLinkData);
+                            resp.send(htmlData + `<br>` + html + `<br>` + modelKitshtml + cartLinkData);
 
                         });
                 });
         });
 
-
 });
-
-
-
-
-
-
 
 app.get("/addBricks", (req, resp) => {
     // load the HTML file into the Node app's memory
@@ -513,8 +477,6 @@ app.get("/addBricks", (req, resp) => {
     resp.send(htmlData);
 
 });
-
-
 
 app.post("/postAddBricks", (req, resp) => {
     console.log(`req: ${req}`);
@@ -532,10 +494,7 @@ app.post("/postAddBricks", (req, resp) => {
             resp.send("Inserted bricks");
         });
 
-
 });
-
-
 
 app.get("/addBricksStock", (req, resp) => {
     // load the HTML file into the Node app's memory
@@ -552,11 +511,8 @@ app.get("/addBricksStock", (req, resp) => {
             html = formulateBricksIDList(rowData);
             resp.send(htmlData + html);
 
-
         });
 });
-
-
 
 app.post("/postAddBricksStock", (req, resp) => {
     console.log(`req: ${req}`);
@@ -573,11 +529,6 @@ app.post("/postAddBricksStock", (req, resp) => {
             resp.send("Inserted/Updated bricks stock count");
         });
 });
-
-
-
-
-
 
 app.get('/productType/:productType/id/:id', (req, resp) => {
     // resp.send(req.params)
@@ -637,9 +588,6 @@ app.get('/productType/:productType/id/:id', (req, resp) => {
     // resp.send(htmlData );
 })
 
-
-
-
 // this one to show all contents of cart
 app.get('/cart/sid/:sid', (req, resp) => {
     console.log("cart specific product")
@@ -657,13 +605,11 @@ app.get('/cart/sid/:sid', (req, resp) => {
             // call function to create HTML data
             let html = createHtmlCartTableClickable(rowData, colNames);
 
-
             let form_html = "<script>var checkOutData = `<div>\n";
             form_html += "<input type='hidden' name='sid' value='" + sid + "'>"
             form_html += "\n</div>`;</script>";
 
             // console.log(htmlData + `<br>` + html+ `<br>` +form_html)
-
 
             resp.send(htmlData + `<br>` + html + `<br>` + form_html);
         });
@@ -678,7 +624,6 @@ app.get('/cart/sid/:sid/productType/:productType/id/:id', (req, resp) => {
     let htmlData = fs.readFileSync("./specificProductCheckOut.html", "utf8");
     let sessioncartTable = "sessioncart"
     if (req.params.productType === "bricks") {
-
 
         let sid = req.params.sid
         let bid = req.params.id
@@ -695,7 +640,6 @@ app.get('/cart/sid/:sid/productType/:productType/id/:id', (req, resp) => {
                 let ProductrowData = rowResp.rows;
                 console.log(ProductrowData)
 
-
                 let bricksstockTableName = "bricksstock"
 
                 let sqlSelectRows = `SELECT count from  ${bricksstockTableName} WHERE BID = $1`;
@@ -711,14 +655,12 @@ app.get('/cart/sid/:sid/productType/:productType/id/:id', (req, resp) => {
                         // call function to create HTML data
                         let html = createCheckoutProductDetailsTable(req.params.productType, ProductrowData, colNames, countAvailable);
 
-
                         // console.log(`HTML table data: ${html}`);
 
                         // send the HTML file data and table data back to front end
                         resp.send(htmlData + `<br>` + html);
 
                     });
-
 
             });
 
@@ -764,13 +706,7 @@ app.get('/cart/sid/:sid/productType/:productType/id/:id', (req, resp) => {
 
     }
 
-
-
-
 });
-
-
-
 
 // // this one is for after checking out
 app.post("/postCheckout", function(req, resp) {
@@ -782,9 +718,6 @@ app.post("/postCheckout", function(req, resp) {
     //use the form one anyway
 
     // now write query to subract
-
-
-
 
     //   // load the HTML file into the Node app's memory
     //   let htmlData = fs.readFileSync("./showcheckout.html", "utf8");
@@ -848,15 +781,11 @@ app.post("/postCheckout", function(req, resp) {
 
                 }
 
-
-
-
             });
 
         });
     // resp.send("Check out complete");
     return resp.redirect('/');
-
 
 });
 
@@ -865,9 +794,7 @@ app.post("/postCheckout", function(req, resp) {
 app.post("/addtocart", function(req, resp) {
     console.log('addtocart')
 
-
     //update or insert into table sessioncookie
-
 
     // console.log(`resp: ${resp}`);
     let tablename = req.body.tablename;
@@ -911,12 +838,9 @@ app.post("/addtocart", function(req, resp) {
                     return resp.redirect('/');
                 });
 
-
-
         }
 
     } else if (tablename === "modelkits") {
-
 
         // check if the composition of model
         //the number of bricks are present or not
@@ -931,7 +855,6 @@ app.post("/addtocart", function(req, resp) {
 
         console.log("in modelkits")
         console.log(mid, orderCount)
-
 
         // get composition of model
 
@@ -980,25 +903,13 @@ app.post("/addtocart", function(req, resp) {
                             return resp.redirect('/');
                         });
 
-
-
-
                 }
-
-
-
 
             });
 
     }
 
 });
-
-
-
-
-
-
 
 var server = app.listen(port, host, function() {
     console.log(
