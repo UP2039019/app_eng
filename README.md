@@ -122,8 +122,51 @@ The project is accessible by http://localhost:8080/
 
 ### Front End APIs
 
-1. / - Shows the shop
-![BricksStock](public/static/api_pics/root.png)
+1. / - Shows the shop (http://localhost:8080/)
+![Shop](public/static/api_pics/root.png)
+
+2. /productType/:productType/id/:id - Shows individual details of the product. Below shows a brick detail
+![BrickDetails](public/static/api_pics/producttype_id_bricks.png)
+Example: http://localhost:8080/productType/bricks/id/B1
+
+Below shows the modelkit detail which is a composition of many bricks
+![ModelKitDetails](public/static/api_pics/producttype_id_model.png)
+Example: http://localhost:8080/productType/modelkits/id/M1
+
+3. /cart/sid/:sid - Shows the cart details for the individual user. The session ID is saved when the user opens the root link.
+![CartDetails](public/static/api_pics/cart_details.png)
+Example: http://localhost:8080/cart/sid/thisguy
+
+4. /cart/sid/:sid/productType/:productType/id/:id - Used to miodify specific products in cart
+![ModifyCartDProduct](public/static/api_pics/modifyCartItem.png)
+Example: http://localhost:8080/cart/sid/thisguy/productType/bricks/id/B1
+[Note that this link will work only when the item B1 has already been added to the cart]
+
+5. /addBricks - Gives the form to add a new brick to the shop
+![AddBricks](public/static/api_pics/addBrick.png)
+Example: http://localhost:8080/addBricks
+
+
+6. /addBricksStock - Gives the form to add stock of existing brick to the shop
+![AddBricks](public/static/api_pics/addBrickStock.png)
+Example: http://localhost:8080/addBricksStock
+[Note that there is a drop down which allows us to modify stock of only existing bricks]
+
+
+### Back End APIs
+
+1. /addtocart - Adds a single product to the cart (sessioncart table). Before that it checks if the number of items mentioned is present in the stocks table. In case of modelkits, it first extracts the composition bricks of that model and checks if the requisite number of bricks of each type are present in the database. In case any one brick is not sufficient, it gives an error message to the user.
+
+Below shows user adding 10 ModelKit Bonsai (M1). But enough B1 bricks are not there.
+![AddManyModels](public/static/api_pics/addCartFail/adding.png)
+User will get an error message
+![FailureToAdd](public/static/api_pics/addCartFail/failing.png)
+
+2. /postCheckout - Completes the transaction. It modifies two tables. Firstly it modifies the bricksstock table and subtracts the number of bricks of each type that are being bought. In case of modelkits it finds all the composite bricks and reduces them individually. Then it goes to the sessioncart table and deletes the entries for the current user, thereby making the cart empty.
+
+3. /postAddBricks - Inserts into the table bricks to contain the new brick type introduced.
+
+4. /postAddBricksStock - Inserts or updates the table bricksstock to contain the number of bricks mentioned
 
 
 ## Difference between github source code and zipped file
